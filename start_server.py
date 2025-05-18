@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify, make_response
 app = Flask(__name__)
 
 
+def placeholder():
+    return jsonify({'payload': {"": ""}})
+
+
 # 1st stage initial calls
 @app.route('/api/System/GetPlatformSupportedVersions', methods=['GET'])
 def get_platform_supported_versions():
@@ -59,6 +63,16 @@ def get_friends():
 @app.route('/api/Messaging/GetDirectMessagesFor', methods=['POST'])
 def get_direct_messages():
     return jsonify({'payload': {"": ""}})
+
+
+@app.route('/api/Leaderboard/GetPlacementMatchesRemaining', methods=['POST'])
+def get_placement_matches_remaining():
+    return placeholder()
+
+
+@app.route('/api/Matches/GetMatches', methods=['POST'])
+def get_matches():
+    return placeholder()
 
 
 @app.route("/api/", methods=["GET"])
