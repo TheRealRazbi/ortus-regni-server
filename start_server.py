@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 
 app = Flask(__name__)
 
@@ -35,14 +35,30 @@ def get_user_stats():
 
 @app.route('/api/PlayerStatus/SetPlayerStatus', methods=['POST'])
 def set_player_status():
-    return "Coming soon"
+    return jsonify({"payload": {"": ""}})
 
 
 # 3rd stage
 @app.route('/api/Accounts/Login', methods=['POST'])
 def login():
     print(request.data)
-    return "Coming soon"
+    response = make_response(jsonify({
+        "payload": {"username": "Razbi"}
+    }))
+    # response.headers["Content-Type"] = "application/json"
+    # response.headers["X-Auth-Token"] = "1111111111111111"
+    return response
+
+
+# 4th stage (after login)
+@app.route('/api/Friends/Get', methods=['GET'])
+def get_friends():
+    return jsonify({"payload": {"": ""}})
+
+
+@app.route('/api/Messaging/GetDirectMessagesFor', methods=['POST'])
+def get_direct_messages():
+    return jsonify({'payload': {"": ""}})
 
 
 @app.route("/api/", methods=["GET"])
