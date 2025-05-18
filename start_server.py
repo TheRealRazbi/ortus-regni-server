@@ -5,6 +5,46 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 
+# 1st stage initial calls
+@app.route('/api/System/GetPlatformSupportedVersions', methods=['GET'])
+def get_platform_supported_versions():
+    return "Coming soon"
+
+
+@app.route('/api/Accounts/CheckSteamAccount', methods=['POST'])
+def check_steam_account():
+    return "Coming soon"
+
+
+@app.route('/api/Accounts/RefreshUserDetails', methods=['POST'])
+def refresh_user_details():
+    return "Coming soon"
+
+
+@app.route('/api/System/EmergencyMessage', methods=['GET'])
+def emergency_message():
+    return "Coming soon"
+
+
+# 2nd stage
+
+@app.route('/api/Accounts/GetUserStats', methods=['POST'])
+def get_user_stats():
+    return "Coming soon"
+
+
+@app.route('/api/PlayerStatus/SetPlayerStatus', methods=['POST'])
+def set_player_status():
+    return "Coming soon"
+
+
+# 3rd stage
+@app.route('/api/Accounts/Login', methods=['POST'])
+def login():
+    print(request.data)
+    return "Coming soon"
+
+
 @app.route("/api/", methods=["GET"])
 def root():
     return jsonify({"message": "Ortus Regni Server Active"})
