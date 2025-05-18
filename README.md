@@ -9,3 +9,6 @@ How to run:
 1 - install python 3.12
 2 - run in the root of the project: `pip install -r requirements.txt`
 3 - run `python start_server.py`
+
+Note: the server is not production ready, and it requires further modifications before being used as such,
+  especially if over the internet instead of locally
