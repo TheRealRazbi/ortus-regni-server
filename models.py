@@ -1,6 +1,8 @@
+import json
+from enum import IntEnum, auto
 from typing import Optional
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 
 
 def dummy_datetime():
@@ -51,9 +53,9 @@ class User(BaseModel):
 
 # noinspection PyDataclass
 class Deck(BaseModel):
-    v: int  # unknown
-    f: int  # unknown
-    d: str  # the deck itself serialized in some way
+    v: int = 1  # unknown
+    f: int = 3  # unknown
+    d: str = ""  # the deck itself serialized in some way
 
 
 # noinspection PyDataclass
@@ -76,23 +78,57 @@ class Match(BaseModel):
     ...
 
 
+class MatchStatus(IntEnum):
+    Created = auto()
+    Waiting = auto()
+    InProgress = auto()
+    Complete = auto()
+    Cancelled = auto()
+
+
+# noinspection PyDataclass
 # noinspection PyDataclass
 class AuthoritativeMatch(BaseModel):
     offline: bool = False
     security: int = 1
     numPlayers: int = 2
-    host: PlayerMatchEntry = Field(default_factory=PlayerMatchEntry)
-    players: list[PlayerMatchEntry] = Field(default_factory=lambda: [PlayerMatchEntry(), PlayerMatchEntry()])
-    match: Match = Field(default_factory=Match)
+    host: PlayerMatchEntry
+    players: list[PlayerMatchEntry] = Field(default_factory=list)
+    match: dict = Field(default_factory=dict)
     currentPlayerId: str = Field(default_factory=dummy_user_id)
     winningPlayerId: str = Field(default_factory=dummy_user_id)
     lastActionDate: str = Field(default_factory=dummy_datetime)
     round: int = 20
-    status: int = 3
+    status: int = MatchStatus.Created.value
     sceneName: int = 1
     turntimers: bool = True
     tournamentRules: bool = False
     gameSeries: bool = False
+
+    @classmethod
+    def from_match_settings(cls, settings: 'MatchSettings'):
+        match_obj = Match()
+        match_id, archived = archive_object(match_obj, "Match", "match_1")
+        archived_payload = json.dumps({
+            "data": {match_id: archived},
+            "$root": {"$ref": match_id}
+        })
+        return cls(
+            security=settings.security,
+            numPlayers=settings.players,
+            host=settings.host,
+            players=[],
+            match={"v": 1, "f": 3, "d": archived_payload},
+            currentPlayerId=dummy_user_id(),
+            winningPlayerId=dummy_user_id(),
+            lastActionDate=dummy_datetime(),
+            round=20,
+            status=MatchStatus.Created.value,
+            sceneName=settings.sceneName,
+            turntimers=settings.turntimers,
+            tournamentRules=settings.tournamentRules,
+            gameSeries=settings.gameSeries
+        )
 
 
 # noinspection PyDataclass
@@ -104,3 +140,10 @@ class MatchSettings(BaseModel):
     turntimers: bool
     tournamentRules: bool
     gameSeries: bool
+
+
+def archive_object(obj, obj_type: str, id_: str):
+    return id_, {
+        "$type": obj_type,
+        **obj.model_dump()
+    }
