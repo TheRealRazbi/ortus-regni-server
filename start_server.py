@@ -72,6 +72,7 @@ def get_placement_matches_remaining():
 
 @app.route('/api/Matches/GetMatches', methods=['POST'])
 def get_matches():
+    print(f"get_matches={request.data}")
     return placeholder()
 
 

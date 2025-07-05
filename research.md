@@ -40,6 +40,14 @@
 - Body: Unknown
 - Returns: {"payload": {"username": "..."}
 
+[POST] /api/Matches/GetMatches
+- Abstract: get the active matches
+- Body: {"invited": bool,"inlobby":bool,
+"inprogress":bool,"completed":bool,
+"minimize":bool,"recent":bool,
+"requestedMatches":list}
+- Returns: Unknown
+
 #### Custom endpoints
 
 [GET] /api/
