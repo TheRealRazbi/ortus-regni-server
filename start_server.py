@@ -70,10 +70,117 @@ def get_placement_matches_remaining():
     return placeholder()
 
 
+def dummy_datetime():
+    return "2025-07-05T16:04:00Z"
+
+
+def dummy_user_id():
+    return "some_user_id"
+
+
+def dummy_steam_id():
+    return "some_steam_id"
+
+
+def dummy_token():
+    return "some_dummy_token"
+
+
+def dummy_user_permissions():
+    return {"userpermissions": [dummy_user_permission()]}
+
+
+def dummy_user_permission():
+    return {"privilege": 1, "isenabled": False}
+
+
+def dummy_registrations():
+    return [dummy_registration()]
+
+
+def dummy_registration():
+    return {"userId": dummy_user_id(), "token": dummy_token(), "note": "some_note"}
+
+
+def dummy_user():
+    return {
+        "username": "some_dude",
+        "password": "qwerty",
+        "email": "",
+        "userId": dummy_user_id(),
+        "authorization": dummy_user_permissions(),
+        "registrations": dummy_registrations(),
+        "verified": True,
+        "status": 1,
+        "emailsub": False,
+        "steamId": dummy_steam_id(),
+    }
+
+
+def dummy_deck():
+    return {}
+
+
+def dummy_player_match_entry():
+    return {
+        "color": "green",
+        "deck": dummy_deck(),
+        "user": dummy_user(),
+        "aiType": 0,
+        "aiDifficulty": 0,
+        "inviteStatus": 2,
+        "dead": False,
+        "strikes": 0,
+        "ready": True,
+        "seriesPoints": 3,
+        "seriesLocked": False
+    }
+
+
+def dummy_match():
+    _me = dummy_player_match_entry
+    return {
+    }
+
+
+def dummy_authoritative_match():
+    _me = dummy_player_match_entry
+    return {
+        "offline": False,
+        "security": 1,
+        "numPlayers": 2,
+        "host": _me(),
+        "players": [_me(), _me()],
+        "match": dummy_match(),
+        "currentPlayerId": dummy_user_id(),
+        "winningPlayerId": dummy_user_id(),
+        "lastActionDate": dummy_datetime(),
+        "round": 20,
+        "status": 3,
+        "sceneName": 1,
+        "turntimers": True,
+        "tournamentRules": False,
+        "gameSeries": False,
+    }
+
+
+def payloadify(data: dict):
+    return jsonify({"payload": data})
+
+
 @app.route('/api/Matches/GetMatches', methods=['POST'])
 def get_matches():
-    print(f"get_matches={request.data}")
-    return placeholder()
+    """Each list needs only authoritative matches"""
+    print(f"get_matches[request.data]={request.data}")
+    return payloadify({
+        "invited": [],
+        "inlobby": [],
+        "inprogress": [],
+        "completed": [
+            dummy_authoritative_match()
+        ],
+        "latestmessages": [],
+    })
 
 
 @app.route("/api/", methods=["GET"])

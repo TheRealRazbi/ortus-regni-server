@@ -46,7 +46,9 @@
 "inprogress":bool,"completed":bool,
 "minimize":bool,"recent":bool,
 "requestedMatches":list}
-- Returns: Unknown
+- Returns: {"invited": [<authoritative match>],
+same thing for the other keys
+returns only the ones requested I think
 
 #### Custom endpoints
 
