@@ -95,11 +95,15 @@ def create_match():
 
 @app.route('/api/Matches/GetState', methods=['POST'])
 def get_match_state():
+    # if request.data:
+    #     print(f"get_state[request.data]={request.data}")
     return payloadify({})
 
 
 @app.route('/api/Messaging/GetMatchMessages', methods=['POST'])
 def get_match_messages():
+    # if request.data:
+    #     print(f"get_match_messages[request.data]={request.data}")
     return payloadify({})
 
 
