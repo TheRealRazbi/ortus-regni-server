@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field, model_validator
 
 
@@ -36,25 +38,27 @@ class Authorization(BaseModel):
 # noinspection PyDataclass
 class User(BaseModel):
     username: str = "some_dude"
-    password: str = "qwerty"
+    password: Optional[str] = "qwerty"
     email: str = ""
     userId: str = Field(default_factory=dummy_user_id)
-    authorization: Authorization = Field(default_factory=Authorization)
-    registrations: list[Registration] = Field(default_factory=lambda: [Registration()])
+    authorization: Optional[Authorization] = Field(default_factory=Authorization)
+    registrations: Optional[list[Registration]] = Field(default_factory=lambda: [Registration()])
     verified: bool = True
     status: int = 1
     emailsub: bool = False
-    steamId: str = Field(default_factory=dummy_steam_id)
+    steamId: Optional[str] = Field(default_factory=dummy_steam_id)
 
 
 # noinspection PyDataclass
 class Deck(BaseModel):
-    ...
+    v: int  # unknown
+    f: int  # unknown
+    d: str  # the deck itself serialized in some way
 
 
 # noinspection PyDataclass
 class PlayerMatchEntry(BaseModel):
-    color: str = "green"
+    color: int = 4
     deck: Deck = Field(default_factory=Deck)
     user: User = Field(default_factory=User)
     aiType: int = 0
@@ -89,3 +93,14 @@ class AuthoritativeMatch(BaseModel):
     turntimers: bool = True
     tournamentRules: bool = False
     gameSeries: bool = False
+
+
+# noinspection PyDataclass
+class MatchSettings(BaseModel):
+    security: int
+    players: int
+    host: PlayerMatchEntry
+    sceneName: int
+    turntimers: bool
+    tournamentRules: bool
+    gameSeries: bool
