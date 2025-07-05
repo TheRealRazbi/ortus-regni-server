@@ -30,7 +30,9 @@
 [POST] /api/Accounts/GetUserStats
 [POST] /api/PlayerStatus/SetPlayerStatus
 [POST] /api/Messaging/GetDirectMessagesFor
-[POST] /api/Matches/GetMatches
+[POST] /api/Matches/Create
+[POST] /api/Matches/GetState
+[POST] /api/Messaging/GetMatchMessages
 
 #### Endpoints
 
@@ -46,7 +48,7 @@
 "inprogress":bool,"completed":bool,
 "minimize":bool,"recent":bool,
 "requestedMatches":list}
-- Returns: {"invited": [<authoritative match>],
+- Returns: {"payload": {"invited": [<authoritative match>],
 same thing for the other keys
 returns only the ones requested I think
 

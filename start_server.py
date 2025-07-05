@@ -171,16 +171,30 @@ def payloadify(data: dict):
 @app.route('/api/Matches/GetMatches', methods=['POST'])
 def get_matches():
     """Each list needs only authoritative matches"""
-    print(f"get_matches[request.data]={request.data}")
+    # print(f"get_matches[request.data]={request.data}")
     return payloadify({
         "invited": [],
         "inlobby": [],
         "inprogress": [],
-        "completed": [
-            dummy_authoritative_match()
-        ],
+        "completed": [],
         "latestmessages": [],
     })
+
+
+@app.route('/api/Matches/Create', methods=['POST'])
+def create_match():
+    print(f"create_match[request.data]={request.data}")
+    return payloadify({})
+
+
+@app.route('/api/Matches/GetState', methods=['POST'])
+def get_match_state():
+    return payloadify({})
+
+
+@app.route('/api/Messaging/GetMatchMessages', methods=['POST'])
+def get_match_messages():
+    return payloadify({})
 
 
 @app.route("/api/", methods=["GET"])
